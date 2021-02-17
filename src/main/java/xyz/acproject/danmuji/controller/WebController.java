@@ -71,7 +71,11 @@ public class WebController {
 		} else {
 			return "redirect:/";
 		}
+	}
 
+	@RequestMapping(value = "/gif")
+	public String gif() {
+		return "gif";
 	}
 
 	@RequestMapping(value = "/quit")

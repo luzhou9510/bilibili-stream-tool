@@ -1,0 +1,21 @@
+body {
+    background-color: transparent;
+}
+
+div {
+    margin: 45px auto;
+    height: 340px;
+    width: 480px;
+    text-align: center;
+}
+
+img {
+    margin: auto;
+}
+
+#message {
+    margin: auto;
+    color: blue;
+    font-size: 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
