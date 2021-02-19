@@ -3,6 +3,7 @@ $(document).ready(function(){
 		if(!$(this).attr("disabled")){
 		openSocket(null, a, 0);
 		$(this).attr("disabled",true);
+		hideGiftThank();
 	}
 });
 
@@ -31,7 +32,7 @@ function openSocket(socket,ip,sliceh) {
 			var data = JSON.parse(msg.data);
             if(data.cmd==="gift"){
                 showGiftThank();
-                var str = '感谢' + data.result.uname + '送的' + data.result.giftName;
+                var str = '谢谢' + data.result.uname + '送的' + data.result.giftName + '~';
                 document.getElementById("message").innerHTML = str;
                 setTimeout(hideGiftThank, 1500)
             }
