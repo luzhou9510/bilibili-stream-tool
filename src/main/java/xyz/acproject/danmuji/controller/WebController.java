@@ -73,9 +73,14 @@ public class WebController {
 		}
 	}
 
-	@RequestMapping(value = "/gif")
-	public String gif() {
-		return "gif";
+	@RequestMapping(value = "/alert")
+	public String gif(HttpServletResponse response) {
+		response.setDateHeader("Expires", 0);
+		//浏览器和缓存服务器都不应该缓存页面信息
+		response.addHeader( "Cache-Control", "no-cache" );
+		//请求和响应的信息都不应该被存储在对方的磁盘系统中；
+		response.addHeader( "Cache-Control", "no-store" );
+		return "alert";
 	}
 
 	@RequestMapping(value = "/quit")

@@ -14,9 +14,3 @@ server:
       enabled: true
     tomcat:
       uri-encoding: UTF-8
-
-file:
-  cat: /cat.mp3
-
-my:
-  name: SnoringBoy

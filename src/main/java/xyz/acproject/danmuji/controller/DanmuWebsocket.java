@@ -11,16 +11,11 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-
-import com.alibaba.fastjson.JSONObject;
 import javazoom.jl.decoder.JavaLayerException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import xyz.acproject.danmuji.service.SoundService;
-import xyz.acproject.danmuji.utils.FastJsonUtils;
+
 
 /**
  * @ClassName DanmuWebsocket
@@ -36,10 +31,6 @@ public class DanmuWebsocket {
 	private Logger LOGGER = LogManager.getLogger(DanmuWebsocket.class);
 	private static CopyOnWriteArraySet<DanmuWebsocket> webSocketServers = new CopyOnWriteArraySet<>();
 	private Session session;
-	@Autowired
-	private SoundService soundService;
-	@Value("${my.name}")
-	private String myName;
 	
 	@OnOpen
 	public void onOpen(Session session) {
@@ -69,10 +60,6 @@ public class DanmuWebsocket {
 		for(DanmuWebsocket danmuWebsocket:webSocketServers) {
 			synchronized (danmuWebsocket.session) {
 				danmuWebsocket.session.getBasicRemote().sendText(message);
-				JSONObject temp = FastJsonUtils.getAsJSONObjectFromObject(message, "result");
-				if (!myName.equals(temp.get("uname"))) {
-					soundService.play();
-				}
 			}
 		}
 	}

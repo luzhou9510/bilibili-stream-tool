@@ -30,13 +30,16 @@ function openSocket(socket,ip,sliceh) {
 		socket.onmessage = function(msg) {
 			// 发现消息进入 开始处理前端触发逻辑
 			var data = JSON.parse(msg.data);
+            var audio= new Audio("../audio/cat.mp3");
+            if (data.result.uname !== 'SnoringBoy') {
+                audio.play();
+            }
             if(data.cmd==="gift"){
-                showGiftThank();
                 var str = '谢谢' + data.result.uname + '送的' + data.result.giftName + '~';
                 document.getElementById("message").innerHTML = str;
+                showGiftThank();
                 setTimeout(hideGiftThank, 1500)
             }
-
 		};
 		// 关闭事件
 		socket.onclose = function() {
