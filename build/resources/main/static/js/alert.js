@@ -30,7 +30,7 @@ function openSocket(socket,ip,sliceh) {
 		socket.onmessage = function(msg) {
 			// 发现消息进入 开始处理前端触发逻辑
 			var data = JSON.parse(msg.data);
-            var audio= new Audio("../audio/cat.mp3");
+            var audio= new Audio("../audio/alert.mp3");
             if (data.result.uname !== 'SnoringBoy') {
                 audio.play();
             }
