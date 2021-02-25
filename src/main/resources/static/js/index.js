@@ -1027,24 +1027,24 @@ function openSocket(socket,ip,sliceh) {
 			// 发现消息进入 开始处理前端触发逻辑
 			var data = JSON.parse(msg.data);
 			if(data.cmd==="cmdp"){
-			if ($("#danmu").children().length > 99) {
-				$("#danmu").children().first().remove();
-				$("#danmu").children("div:last-child").after(
-						"<div class='danmu-child'>" + data.result + "</div>");
-			} else {
-				$("#danmu").append("<div class='danmu-child'>" + data.result + "</div>");
-			}
-			var lastNodeH = $(".danmu-child").eq(-1).height();
-			var lasttNodeH = $(".danmu-child").eq(-2).height();
-			if(Math.abs(lastNodeH-lasttNodeH)>sliceh){
-			sliceh = Math.abs(lastNodeH-lasttNodeH);
-			}
-			if ($('#danmu')[0].scrollHeight -$("#danmu").scrollTop() <= (804+sliceh)) {
-		        var h = $("div[class='danmu-child']:last").height();
-		        var top = $("div[class='danmu-child']:last").offset().top + h + 6;
-		        $("#danmu").scrollTop($("#danmu").scrollTop() + top);
+                if ($("#danmu").children().length > 99) {
+                    $("#danmu").children().first().remove();
+                    $("#danmu").children("div:last-child").after(
+                            "<div class='danmu-child'>" + data.result + "</div>");
+                } else {
+                    $("#danmu").append("<div class='danmu-child'>" + data.result + "</div>");
+                }
+                var lastNodeH = $(".danmu-child").eq(-1).height();
+                var lasttNodeH = $(".danmu-child").eq(-2).height();
+                if(Math.abs(lastNodeH-lasttNodeH)>sliceh){
+                    sliceh = Math.abs(lastNodeH-lasttNodeH);
+                }
+                if ($('#danmu')[0].scrollHeight -$("#danmu").scrollTop() <= (804+sliceh)) {
+                    var h = $("div[class='danmu-child']:last").height();
+                    var top = $("div[class='danmu-child']:last").offset().top + h + 6;
+                    $("#danmu").scrollTop($("#danmu").scrollTop() + top);
 // $('#danmu').scrollTop($('#danmu')[0].scrollHeight);
-			}
+			    }
 			}else{
 				if ($("#danmu").children().length > 99) {
 					$("#danmu").children().first().remove();

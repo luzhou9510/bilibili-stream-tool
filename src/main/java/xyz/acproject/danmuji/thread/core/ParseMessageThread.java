@@ -39,6 +39,7 @@ import xyz.acproject.danmuji.thread.GiftShieldThread;
 import xyz.acproject.danmuji.tools.ParseIndentityTools;
 import xyz.acproject.danmuji.tools.ParseSetStatusTools;
 import xyz.acproject.danmuji.tools.ShieldGiftTools;
+import xyz.acproject.danmuji.utils.FastJsonUtils;
 import xyz.acproject.danmuji.utils.JodaTimeUtils;
 import xyz.acproject.danmuji.utils.SpringUtils;
 
@@ -1053,6 +1054,19 @@ public class ParseMessageThread extends Thread{
 
 				// msg_type 1 为进入直播间 2 为关注 3为分享直播间
 				case "INTERACT_WORD":
+					interact = JSONObject.parseObject(jsonObject.getString("data"), Interact.class);
+					msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
+					// 进入房间
+					if (msg_type == 1) {
+						try {
+							danmuWebsocket.sendMessage(WsPackage.toJson("enter", (short)0, interact));
+						} catch (Exception e) {
+							// TODO 自动生成的 catch 块
+							e.printStackTrace();
+						}
+					}
+
+
 					// 关注
 					if (getMessageControlMap().get(ShieldMessage.is_follow) != null
 							&& getMessageControlMap().get(ShieldMessage.is_follow)) {
@@ -1095,10 +1109,6 @@ public class ParseMessageThread extends Thread{
 								}
 							}
 						}
-					}
-					msg_type = JSONObject.parseObject(jsonObject.getString("data")).getShort("msg_type");
-					if(msg_type!=1&&msg_type!=2) {
-//			        LOGGER.debug("直播间信息:::" + message);
 					}
 					break;
 				// 礼物bag bot
@@ -1283,6 +1293,9 @@ public class ParseMessageThread extends Thread{
 		if (cmd.startsWith("GUARD_BUY")) {
 			return "GUARD_BUY";
 		}
+		if (cmd.startsWith("INTERACT_WORD")) {
+			return "INTERACT_WORD";
+		}
 //		if(cmd.startsWith("SUPER_CHAT_MESSAGE")) {
 //			return "SUPER_CHAT_MESSAGE";
 //		}
@@ -1446,6 +1459,6 @@ public class ParseMessageThread extends Thread{
 //			return "";
 //		}
 
-		return cmd;
+		return "";
 	}
 }

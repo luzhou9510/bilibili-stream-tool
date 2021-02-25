@@ -3,7 +3,7 @@ $(document).ready(function(){
 		if(!$(this).attr("disabled")){
 		openSocket(null, a, 0);
 		$(this).attr("disabled",true);
-		hideGiftThank();
+		hideGifImage();
 	}
 });
 
@@ -29,16 +29,49 @@ function openSocket(socket,ip,sliceh) {
 		// 获得消息事件
 		socket.onmessage = function(msg) {
 			// 发现消息进入 开始处理前端触发逻辑
+			var followSound = '../audio/follow.mp3';
+			var danmuSound = '../audio/danmu.mp3';
+			var giftSound = '../audio/gift.mp3';
+			var enterSound = '../audio/enter.mp3'
+
+			var giftGif = '../img/gift.gif';
+			var followGif = '../img/follow.gif'
+			var enterGif = '../img/enter.gif'
+
 			var data = JSON.parse(msg.data);
-            var audio= new Audio("../audio/alert.mp3");
-            if (data.result.uname !== 'SnoringBoy') {
-                audio.play();
-            }
             if(data.cmd==="gift"){
+                var audio = new Audio(giftSound);
+                audio.volume = 0.005;
+                audio.play();
                 var str = '谢谢' + data.result.uname + '送的' + data.result.giftName + '~';
                 document.getElementById("message").innerHTML = str;
-                showGiftThank();
-                setTimeout(hideGiftThank, 1500)
+                document.getElementById("gif").src = giftGif;
+                showGifImage();
+                setTimeout(hideGifImage, 1500)
+            } else if (data.cmd === 'enter') {
+                var audio = new Audio(enterSound);
+                audio.volume = 0.1;
+                audio.play();
+                var str = data.result.uname + '进来一起来嗨了!';
+                document.getElementById("message").innerHTML = str;
+                document.getElementById("gif").src = enterGif;
+                showGifImage();
+                setTimeout(hideGifImage, 1500)
+            } else if (data.cmd === 'follow') {
+                var audio = new Audio(followSound);
+                audio.volume = 0.1;
+                audio.play();
+                var str = data.result.uname + '的眼光真不错，关注了SnoringBoy~';
+                document.getElementById("message").innerHTML = str;
+                document.getElementById("gif").src = followGif;
+                showGifImage();
+                setTimeout(hideGifImage, 1500)
+            } else if (data.cmd === 'danmu') {
+                var audio = new Audio(danmuSound);
+                audio.volume = 0.1;
+                audio.play();
+            } else {
+                console.log('invalid cmd' + data.cmd);
             }
 		};
 		// 关闭事件
@@ -52,10 +85,10 @@ function openSocket(socket,ip,sliceh) {
 	}
 }
 
-function hideGiftThank() {
+function hideGifImage() {
     document.getElementById("giftThank").style.display="none";
 }
 
-function showGiftThank() {
+function showGifImage() {
     document.getElementById("giftThank").style.display="block";
 }
